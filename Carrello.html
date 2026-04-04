@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Tuo Carrello | ReadyWear Resell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+            --border: #eee;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo { font-weight: 800; font-size: 1.5rem; text-transform: uppercase; letter-spacing: -1px; }
+        .logo a { text-decoration: none; color: inherit; }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 50px;
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 { font-size: 2rem; font-weight: 800; margin-bottom: 40px; text-transform: uppercase; }
+
+        .cart-items { border-top: 1px solid var(--border); }
+
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+        .item-img {
+            width: 100px;
+            height: 120px;
+            background: var(--gray);
+            object-fit: cover;
+        }
+
+        .item-details { flex-grow: 1; }
+        .item-brand { font-size: 0.75rem; color: #888; text-transform: uppercase; font-weight: 600; }
+        .item-name { font-size: 1.1rem; font-weight: 600; margin: 5px 0; }
+        .item-price { font-weight: 700; }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-decoration: underline;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .remove-btn:hover { color: #ff3b30; }
+
+        .summary {
+            background: var(--gray);
+            padding: 30px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary h2 { font-size: 1.2rem; margin-top: 0; text-transform: uppercase; }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        .summary-total {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .checkout-btn {
+            display: block;
+            background: var(--black);
+            color: white;
+            text-align: center;
+            padding: 18px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+
+        .checkout-btn:hover { opacity: 0.8; }
+
+        #empty-message {
+            display: none;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        #empty-message a {
+            color: var(--black);
+            font-weight: 700;
+        }
+		
+		        footer {
+            margin-top: 80px;
+            padding: 40px 5%;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .footer-links {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--black);
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .cart-container { grid-template-columns: 1fr; }
+            .summary { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=EUR"></script>
+
+    <header>
+        <div class="logo"><a href="index.html">ReadyWear</a></div>
+        <nav style="font-size: 0.9rem; font-weight: 500;">
+            <a href="Collezione.html" style="text-decoration: none; color: inherit;">← Continua lo shopping</a>
+        </nav>
+    </header>
+
+    <div class="cart-container">
+        <main>
+            <h1>Il Tuo Carrello</h1>
+            
+            <div id="empty-message">
+                <p>Il tuo carrello è vuoto.</p>
+                <a href="Collezione.html">Torna alla collezione</a>
+            </div>
+
+            <div class="cart-items" id="cart-list"></div>
+        </main>
+
+        <aside class="summary" id="cart-summary">
+            <h2>Riepilogo</h2>
+            <div class="summary-row">
+                <span>Subtotale</span>
+                <span id="subtotal">€0,00</span>
+            </div>
+            <div class="summary-row">
+                <span>Spedizione</span>
+                <span>Calcolata al checkout</span>
+            </div>
+            
+            <div class="summary-row summary-total">
+                <span>Totale</span>
+                <span id="total-price">€0,00</span>
+            </div>
+			
+			<div id="paypal-button-container" style="margin-top: 30px; max-width: 400px;"></div>
+            
+        </aside>
+    </div>
+	
+	    <footer>
+        <p>&copy; <span id="year"></span> ReadyWear Resell. Tutti i diritti riservati.</p>
+    </footer>
+
+    <script>
+        // Anno automatico
+        document.getElementById("year").textContent = new Date().getFullYear();
+        // Carica i prodotti all'apertura della pagina
+        document.addEventListener('DOMContentLoaded', displayCart);
+
+        function displayCart() {
+            const cartList = document.getElementById('cart-list');
+            const cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            const emptyMessage = document.getElementById('empty-message');
+            const summary = document.getElementById('cart-summary');
+
+            // Svuota il contenitore prima di riempirlo
+            cartList.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartList.style.display = 'none';
+                summary.style.display = 'none';
+                emptyMessage.style.display = 'block';
+                return;
+            }
+
+            emptyMessage.style.display = 'none';
+            cartList.style.display = 'block';
+            summary.style.display = 'block';
+
+            // Genera l'HTML per ogni prodotto salvato nel localStorage
+            cart.forEach((item, index) => {
+                const itemHTML = `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}" class="item-img">
+                        <div class="item-details">
+                            <span class="item-brand">ReadyWear Selection</span>
+                            <p class="item-name">${item.name}</p>
+                            <p class="item-price">€${item.price.toFixed(2).replace('.', ',')}</p>
+                            <button class="remove-btn" onclick="removeItem(${index})">Rimuovi</button>
+                        </div>
+                    </div>
+                `;
+                cartList.innerHTML += itemHTML;
+            });
+
+            updateTotal();
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            
+            // Rimuove l'elemento dall'array usando la sua posizione
+            cart.splice(index, 1);
+            
+            // Salva il carrello aggiornato
+            localStorage.setItem('readywearCart', JSON.stringify(cart));
+            
+            // Ricarica la visualizzazione
+            displayCart();
+        }
+
+        function updateTotal() {
+            const cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            const subtotalElement = document.getElementById('subtotal');
+            const totalElement = document.getElementById('total-price');
+
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price;
+            });
+
+            const formattedTotal = `€${total.toFixed(2).replace('.', ',')}`;
+            subtotalElement.innerText = formattedTotal;
+            totalElement.innerText = formattedTotal;
+        }
+		
+		paypal.Buttons({
+    // Crea l'ordine prendendo il totale dal carrello
+    createOrder: function(data, actions) {
+        // Recupera il totale calcolato nel tuo carrello (es. 120.00)
+        let totale = document.getElementById('cart-total').innerText.replace('€', '').trim();
+        
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: totale // Il prezzo finale da pagare
+                }
+            }]
+        });
+    },
+
+    // Cosa succede quando il pagamento va a buon fine
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+            alert('Grazie ' + details.payer.name.given_name + '! Pagamento completato con successo.');
+            
+            // Qui puoi svuotare il carrello e reindirizzare a una pagina di ringraziamento
+            localStorage.removeItem('readywearCart');
+            window.location.href = "Grazie.html"; 
+        });
+    },
+
+    // Gestione errori
+    onError: function(err) {
+        console.error('Errore durante il pagamento:', err);
+        alert('Si è verificato un errore con PayPal. Riprova più tardi.');
+    }
+}).render('#paypal-button-container'); // Renderizza il pulsante nel div creato sopra
+    </script>
+
+</body>
+</html>

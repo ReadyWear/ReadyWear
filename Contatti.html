@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contatti | ReadyWear Resell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --light-gray: #f9f9f9;
+            --border: #e2e2e2;
+            --accent: #007aff;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            background: var(--white); 
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo { font-weight: 800; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .logo a { text-decoration: none; color: inherit; }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 0 5%;
+            text-align: center;
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; }
+        .subtitle { color: #666; margin-bottom: 50px; }
+
+        .contact-methods {
+            display: grid;
+            gap: 20px;
+        }
+
+        .contact-card {
+            background: var(--light-gray);
+            padding: 30px;
+            text-decoration: none;
+            color: var(--black);
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .contact-card:hover {
+            border-color: var(--black);
+            background: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .contact-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+        }
+
+        .contact-card p {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* NOTIFICA PERSONALIZZATA */
+        #custom-notification {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--black);
+            color: var(--white);
+            padding: 20px 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .fade-in { animation: fadeIn 0.4s ease forwards; }
+        .fade-out { animation: fadeOut 0.4s ease forwards; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+        footer {
+            margin-top: 100px;
+            padding: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="custom-notification">Copiato!</div>
+
+    <header>
+        <div class="logo"><a href="index.html">ReadyWear</a></div>
+    </header>
+
+    <div class="contact-container">
+        <h1>Contattaci</h1>
+        <p class="subtitle">Siamo a tua disposizione per info, ordini o valutazioni.</p>
+
+        <div class="contact-methods">
+            <div class="contact-card" style="cursor: default;">
+                <h3>Email Ufficiale</h3>
+                <p>rw.readywear@gmail.com</p>
+                <button class="copy-btn" onclick="copyText('rw.readywear@gmail.com', 'Email copiata')">Copia Indirizzo</button>
+            </div>
+
+            <a href="https://www.instagram.com/readywear_resell" target="_blank" class="contact-card">
+                <h3>Instagram</h3>
+                <p>@readywear_resell</p>
+            </a>
+
+            <a href="https://www.vinted.it/member/66227591-readywear_resell" target="_blank" class="contact-card">
+                <h3>Vinted Shop</h3>
+                <p>ReadyWear Store</p>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; <span id="year"></span> ReadyWear Resell. Tutti i diritti riservati.
+    </footer>
+
+    <script>
+        // Questa riga imposta l'anno corrente in automatico nel footer
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        function copyText(text, message) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(message);
+            });
+        }
+
+        function showNotification(message) {
+            const notify = document.getElementById('custom-notification');
+            notify.innerText = message;
+            notify.style.display = 'block';
+            notify.className = 'fade-in';
+
+            setTimeout(() => {
+                notify.className = 'fade-out';
+                setTimeout(() => {
+                    notify.style.display = 'none';
+                }, 400);
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grazie per il tuo ordine | ReadyWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+            --accent: #28a745; /* Il tuo verde sostenibilità */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: var(--white);
+            color: var(--black);
+            text-align: center;
+        }
+
+        .success-container {
+            padding: 40px;
+            max-width: 500px;
+        }
+
+        .icon-check {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .order-number {
+            font-weight: 700;
+            background: var(--gray);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: var(--black);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="success-container">
+        <div class="icon-check">✓</div>
+        <h1>Ordine Confermato</h1>
+        <p>Grazie per aver scelto <strong>ReadyWear</strong>. <br> 
+           Hai appena dato una nuova vita a un capo unico, facendo del bene al tuo stile e al pianeta.</p>
+        
+        <p>Riceverai a breve una mail di conferma da PayPal con i dettagli della transazione. Ti invieremo il codice di tracciamento appena il pacco sarà spedito.</p>
+        
+        <a href="index.html" class="btn-home">Torna allo Shop</a>
+    </div>
+
+    <footer>
+        &copy; <span id="year"></span> ReadyWear Resell.
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+        
+        // Opzionale: svuota il carrello se non è stato fatto nella pagina precedente
+        localStorage.removeItem('readywearCart');
+    </script>
+
+</body>
+</html>

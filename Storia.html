@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Nostra Storia | ReadyWear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+            --border: #eee;
+            /* Modificato l'accento da blu a verde */
+            --accent: #28a745; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
+        .logo a { text-decoration: none; color: inherit; }
+        
+        nav { display: flex; align-items: center; }
+        nav a {
+            text-decoration: none;
+            color: var(--black);
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        nav a:hover { color: #888; }
+
+        .story-hero {
+            padding: 100px 5% 60px;
+            text-align: center;
+            background-color: var(--gray);
+        }
+
+        .story-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .story-hero p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .container {
+            padding: 80px 15%;
+        }
+
+        .grid-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .grid-section img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 0.5s;
+        }
+
+        .grid-section img:hover {
+            filter: grayscale(0%);
+        }
+
+        .text-content h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .text-content ul {
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+
+        .text-content ul li {
+            margin-bottom: 15px;
+        }
+
+        .text-content ul li strong {
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            /* Utilizza la variabile --accent ora verde */
+            color: var(--accent); 
+        }
+
+        footer {
+            margin-top: 80px;
+            padding: 40px 5%;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .grid-section { grid-template-columns: 1fr; gap: 30px; margin-bottom: 60px; }
+            .grid-section img { height: 300px; }
+            .story-hero h1 { font-size: 2rem; }
+            .container { padding: 40px 5%; }
+            nav a:not(.cart-link) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">ReadyWear</a>
+        </div>
+        <nav>
+            <a href="Collezione.html">Collezione</a>
+            <a href="Sneakers.html">Sneakers</a>
+            <a href="Vendi.html">Vendi</a>
+            <a href="Contatti.html">Contatti</a>
+            <a href="Storia.html" style="font-weight: 700; border-bottom: 2px solid black;">Storia</a>
+            <a href="Carrello.html" class="cart-link">
+                <span>🛒</span> Carrello (<span id="cart-count">0</span>)
+            </a>
+        </nav>
+    </header>
+
+    <section class="story-hero">
+        <h1>Oltre il Second-Hand</h1>
+        <p>ReadyWear nasce dalla visione di dare una nuova vita al lusso e allo streetwear, rendendo accessibile a chiunque qualsiasi tipo di stile.</p>
+    </section>
+
+    <div class="container">
+        
+        <div class="grid-section">
+            <div class="text-content">
+                <h2>Le Origini</h2>
+                <p>Tutto è iniziato con una sfida comune: la voglia di indossare capi capaci di esprimere la nostra identità, ma con un prezzo spesso fuori portata. Invece di rinunciare, abbiamo cercato un’alternativa. Ci siamo immersi nel mondo del second-hand, scoprendo che lo stile non deve necessariamente costare una fortuna.</p>
+                <p>Da questa intuizione è nata ReadyWear: un progetto creato da chi ama la moda per chi, come noi, crede che un brand o un design iconico debbano essere un’opportunità per molti, non un lusso per pochi.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800" alt="I nostri inizi">
+        </div>
+
+        <div class="grid-section" style="direction: rtl;">
+            <div class="text-content" style="direction: ltr;">
+                <h2>La Nostra Missione</h2>
+                <p>In ReadyWear selezioniamo con cura capi di seconda mano e articoli "come nuovi" (spesso mai indossati), garantendo la massima qualità al minor prezzo possibile. La nostra missione è semplice: democratizzare la moda. Vogliamo che chiunque possa accedere ai marchi che ha sempre desiderato, abbattendo le barriere del prezzo senza scendere a compromessi sull’estetica.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&q=80&w=800" alt="Processo di selezione">
+        </div>
+
+        <div class="grid-section">
+            <div class="text-content">
+                <h2>Sostenibilità</h2>
+                <p>Scegliere ReadyWear non significa solo fare un affare, ma fare una scelta consapevole. Crediamo fermamente che la moda debba essere circolare:</p>
+                <ul>
+                    <li><strong>Riduzione degli sprechi</strong> Ogni capo recuperato è un vestito in meno che finisce in discarica.</li>
+                    <li><strong>Risparmio di risorse</strong> Dare nuova vita a un indumento riduce drasticamente il consumo di acqua ed energia necessario per produrne uno nuovo.</li>
+                    <li><strong>Consumo Etico</strong> Promuoviamo un modello di shopping che rispetta l'ambiente, dimostrando che essere alla moda e sostenibili sono due facce della stessa medaglia.</li>
+                </ul>
+            </div>
+            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=800" alt="Sostenibilità ReadyWear">
+        </div>
+
+        <div class="grid-section" style="direction: rtl;">
+            <div class="text-content" style="direction: ltr;">
+                <h2>Il Nostro Futuro</h2>
+                <p>Non ci fermiamo qui. Il nostro obiettivo per il futuro è diventare il punto di riferimento per ogni stile, gusto e necessità. Lavoriamo ogni giorno per ampliare il nostro catalogo, affinché chiunque entri su ReadyWear possa trovare esattamente ciò che cerca per sentirsi se stesso, senza guardare il cartellino del prezzo.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800" alt="Il futuro della moda">
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; <span id="year"></span> ReadyWear Resell. Tutti i diritti riservati.</p>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+        
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            const countElement = document.getElementById('cart-count');
+            if (countElement) countElement.innerText = cart.length;
+        }
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>

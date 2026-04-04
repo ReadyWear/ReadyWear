@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collezione Sneakers | ReadyWear Resell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --light-gray: #f5f5f7;
+            --border: #ececec;
+            --accent: #007aff;
+            --text-muted: #666;
+        }
+
+        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--white); color: var(--black); line-height: 1.6; }
+
+        /* --- Header --- */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .logo { font-weight: 800; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px; }
+        .logo a { text-decoration: none; color: inherit; }
+
+        .cart-link {
+            text-decoration: none;
+            color: var(--black);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border: 1px solid var(--black);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .cart-link:hover { background: var(--black); color: white; }
+
+        /* --- Layout --- */
+        .collection-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filters h3 { font-size: 0.9rem; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; border-bottom: 2px solid var(--black); display: inline-block; padding-bottom: 5px; }
+        .filter-group { margin-bottom: 30px; }
+        .filter-group strong { display: block; margin-bottom: 15px; font-size: 0.9rem; }
+        .filter-group label { display: block; font-size: 0.85rem; margin-bottom: 12px; color: var(--text-muted); cursor: pointer; transition: color 0.2s; }
+        .filter-group label:hover { color: var(--black); }
+        .filter-group input[type="checkbox"] { margin-right: 10px; accent-color: var(--black); }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .collection-header h1 { font-size: 1.8rem; font-weight: 700; margin: 0; }
+
+        .sort-select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; outline: none; background: var(--white); cursor: pointer; }
+
+        /* --- Prodotti --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .item-card { 
+            text-decoration: none; 
+            color: inherit; 
+            display: flex; 
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .item-card.hidden { display: none; }
+
+        .item-card:hover { transform: translateY(-5px); }
+
+        .img-container {
+            background: var(--light-gray);
+            aspect-ratio: 1 / 1.2;
+            overflow: hidden;
+            margin-bottom: 12px;
+            position: relative;
+            border-radius: 12px;
+        }
+
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .item-card:hover img { transform: scale(1.1); }
+
+        .badge-cond {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: white;
+            padding: 4px 10px;
+            font-size: 10px;
+            font-weight: 800;
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .item-info .brand { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        .item-info .name { font-size: 1rem; font-weight: 600; margin: 6px 0; }
+        .item-info .price { font-weight: 800; font-size: 1.1rem; color: var(--black); }
+
+        footer {
+            margin-top: 80px;
+            padding: 60px 5%;
+            background: var(--light-gray);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .collection-container { grid-template-columns: 1fr; }
+            .filters { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="index.html">ReadyWear</a></div>
+        <a href="Carrello.html" class="cart-link">🛒 Carrello (<span id="cart-count">0</span>)</a>
+    </header>
+
+    <div class="collection-container">
+        <aside class="filters">
+            <h3>Filtra Per</h3>
+            <div class="filter-group">
+                <strong>Taglia</strong>
+                <label><input type="checkbox" class="size-filter" value="39"> 39</label>
+                <label><input type="checkbox" class="size-filter" value="40"> 40</label>
+                <label><input type="checkbox" class="size-filter" value="41"> 41</label>
+                <label><input type="checkbox" class="size-filter" value="42"> 42</label>
+                <label><input type="checkbox" class="size-filter" value="43"> 43</label>
+                <label><input type="checkbox" class="size-filter" value="44"> 44</label>
+                <label><input type="checkbox" class="size-filter" value="45"> 45</label>
+            </div>
+        </aside>
+
+        <main>
+            <div class="collection-header">
+                <h1>Tutte le Sneakers</h1>
+                <select class="sort-select" id="sort-select">
+                    <option value="recent">Più recenti</option>
+                    <option value="price-asc">Prezzo: Crescente</option>
+                    <option value="price-desc">Prezzo: Decrescente</option>
+                </select>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                
+                <a href="prodotto.html?nome=Nike%20Air%20Jordan%201&prezzo=75.00&img=Immagini/Jordan1.jpg" 
+                   class="item-card" data-size="42" data-price="75.00" data-date="20240115">
+                    <div class="img-container">
+                        <div class="badge-cond">9.5/10</div>
+                        <img src="Immagini/Jordan1.jpg" alt="Nike Air Jordan 1">
+                    </div>
+                    <div class="item-info">
+                        <span class="brand">Nike x Jordan</span>
+                        <p class="name">Nike Air Jordan 1</p>
+                        <p class="price">€75,00</p>
+                    </div>
+                </a>
+
+                <a href="prodotto.html?nome=Adidas%20Campus&prezzo=65.00&img=Immagini/AdidasCampus.jpg" 
+                   class="item-card" data-size="40" data-price="65.00" data-date="20240220">
+                    <div class="img-container">
+                        <div class="badge-cond">NEW</div>
+                        <img src="Immagini/AdidasCampus.jpg" alt="Adidas Campus">
+                    </div>
+                    <div class="item-info">
+                        <span class="brand">Adidas</span>
+                        <p class="name">Adidas Campus</p>
+                        <p class="price">€65,00</p>
+                    </div>
+                </a>
+
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="year"></span> ReadyWear Resell. Tutti i diritti riservati.</p>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const grid = document.getElementById('products-grid');
+        const checkboxes = document.querySelectorAll('.size-filter');
+        const sortSelect = document.getElementById('sort-select');
+
+        // 1. FUNZIONE FILTRAGGIO (TAGLIE)
+        function filterProducts() {
+            const selectedSizes = Array.from(checkboxes)
+                .filter(i => i.checked)
+                .map(i => i.value);
+
+            const products = document.querySelectorAll('.item-card');
+            products.forEach(product => {
+                const productSize = product.getAttribute('data-size');
+                if (selectedSizes.length === 0 || selectedSizes.includes(productSize)) {
+                    product.classList.remove('hidden');
+                } else {
+                    product.classList.add('hidden');
+                }
+            });
+        }
+
+        // 2. FUNZIONE ORDINAMENTO (PREZZO/RECENTI)
+        function sortProducts() {
+            const products = Array.from(grid.querySelectorAll('.item-card'));
+            const sortBy = sortSelect.value;
+
+            products.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+                const dateA = parseInt(a.getAttribute('data-date'));
+                const dateB = parseInt(b.getAttribute('data-date'));
+
+                if (sortBy === 'price-asc') return priceA - priceB;
+                if (sortBy === 'price-desc') return priceB - priceA;
+                if (sortBy === 'recent') return dateB - dateA;
+                return 0;
+            });
+
+            // Svuota la griglia e riappendi i prodotti ordinati
+            products.forEach(product => grid.appendChild(product));
+        }
+
+        // Event Listeners
+        checkboxes.forEach(cb => cb.addEventListener('change', filterProducts));
+        sortSelect.addEventListener('change', sortProducts);
+
+        // Carrello
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        updateCartCount();
+    </script>
+</body>
+</html>

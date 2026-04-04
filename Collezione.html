@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collezione Completa | ReadyWear Resell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --light-gray: #f5f5f7;
+            --border: #ececec;
+            --accent: #007aff;
+            --text-muted: #666;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            background: var(--white); 
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .logo { font-weight: 800; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px; }
+        .logo a { text-decoration: none; color: inherit; }
+
+        .cart-link {
+            text-decoration: none;
+            color: var(--black);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border: 1px solid var(--black);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .cart-link:hover { background: var(--black); color: white; }
+
+        .collection-container {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 60px;
+            padding: 60px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- Sidebar Filtri --- */
+        .filters h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--black);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .filter-group { margin-bottom: 30px; }
+        .filter-group strong { display: block; margin-bottom: 15px; font-size: 0.9rem; }
+
+        .filter-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .filter-group label:hover { color: var(--black); }
+
+        .filter-checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #ccc;
+            margin-right: 12px;
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .filter-checkbox:checked { background: var(--black); border-color: var(--black); }
+        .filter-checkbox:checked::after {
+            content: '✓'; color: white; position: absolute; font-size: 12px; left: 3px; top: -1px;
+        }
+
+        /* --- Header Griglia --- */
+        .grid-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+
+        .sort-select {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            background: white;
+        }
+
+        /* --- Grid Prodotti (Layout Uniforme) --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 40px;
+            align-items: stretch; /* Forza le card sulla stessa riga ad avere la stessa altezza */
+        }
+
+        .item-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column; /* Organizza gli elementi in colonna */
+            height: 100%;
+            border: 1px solid var(--border);
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+        .product-link { text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1; }
+
+        .img-container {
+            background: var(--light-gray);
+            aspect-ratio: 1 / 1.25; /* Rapporto d'aspetto fisso per tutte le immagini */
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .img-container img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-link:hover .img-container img { transform: scale(1.1); }
+
+        .badge-cond {
+            position: absolute;
+            top: 15px; left: 15px;
+            background: var(--white);
+            padding: 5px 10px; font-size: 10px; font-weight: 800;
+            border-radius: 4px; box-shadow: var(--shadow); z-index: 2;
+        }
+
+        .item-info { 
+            padding: 20px 15px; 
+            flex-grow: 1; /* Occupa lo spazio disponibile spingendo il bottone giù */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-info .brand { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        
+        /* Fissiamo l'altezza del nome per allineare i prezzi */
+        .item-info .name { 
+            font-size: 1.05rem; 
+            font-weight: 600; 
+            margin: 8px 0; 
+            color: #333; 
+            min-height: 2.8em; 
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .item-info .price { font-weight: 800; font-size: 1.1rem; color: var(--black); margin-top: auto; }
+
+        .add-to-cart {
+            background: var(--black); color: white; border: none; padding: 14px;
+            font-family: inherit; font-weight: 700; font-size: 0.75rem;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+            border-radius: 8px; margin: 0 15px 20px 15px; transition: background 0.3s;
+        }
+
+        .add-to-cart:hover { background: #333; }
+
+        #custom-notification {
+            display: none; position: fixed; bottom: 30px; right: 30px;
+            background: var(--black); color: var(--white); padding: 16px 32px;
+            border-radius: 12px; font-weight: 600; z-index: 1000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            margin-top: 100px; padding: 60px 5%; background: var(--light-gray);
+            text-align: center; font-size: 0.85rem; color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .collection-container { grid-template-columns: 1fr; padding-top: 20px; }
+            .filters { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+            .filter-group { margin-bottom: 0; white-space: nowrap; }
+            .grid-controls { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="custom-notification">Articolo aggiunto</div>
+
+    <header>
+        <div class="logo"><a href="index.html">ReadyWear</a></div>
+        <a href="Carrello.html" class="cart-link">🛒 Carrello (<span id="cart-count">0</span>)</a>
+    </header>
+
+    <div class="collection-container">
+        <aside class="filters">
+            <h3>Filtra Per</h3>
+            <div class="filter-group">
+                <strong>Categoria</strong>
+                <label><input type="checkbox" class="filter-checkbox" value="canottiere"> Canottiere</label>
+                <label><input type="checkbox" class="filter-checkbox" value="t-shirt"> T-Shirt</label>
+                <label><input type="checkbox" class="filter-checkbox" value="camice"> Camice</label>
+                <label><input type="checkbox" class="filter-checkbox" value="polo"> Polo</label>
+                <label><input type="checkbox" class="filter-checkbox" value="felpe"> Felpe</label>
+                <label><input type="checkbox" class="filter-checkbox" value="giacchetti"> Giacchetti</label>
+                <label><input type="checkbox" class="filter-checkbox" value="pantaloni"> Pantaloni</label>
+                <label><input type="checkbox" class="filter-checkbox" value="pantaloncini"> Pantaloncini</label>
+                <label><input type="checkbox" class="filter-checkbox" value="jeans"> Jeans</label>
+                <label><input type="checkbox" class="filter-checkbox" value="scarpe"> Scarpe</label>
+                <label><input type="checkbox" class="filter-checkbox" value="cappelli"> Cappelli</label>
+                <label><input type="checkbox" class="filter-checkbox" value="costumi"> Costumi da Bagno</label>
+            </div>
+        </aside>
+
+        <main>
+            <div class="grid-controls">
+                <select class="sort-select" id="sort-select">
+                    <option value="recent">Più recenti</option>
+                    <option value="price-asc">Prezzo: Crescente</option>
+                    <option value="price-desc">Prezzo: Decrescente</option>
+                </select>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                
+                <div class="item-card" data-category="polo" data-price="35.00" data-date="20240320">
+                    <a href="prodotto.html?nome=Polo%20Nera%20Lacoste&prezzo=35.00&img=Immagini/PoloLacosteNera.jpg" class="product-link">
+                        <div class="img-container">
+                            <div class="badge-cond">9.5/10</div>
+                            <img src="Immagini/PoloLacosteNera.jpg" alt="Polo Lacoste Nera">
+                        </div>
+                        <div class="item-info">
+                            <span class="brand">Lacoste</span>
+                            <p class="name">Polo Nera Manica corta</p>
+                            <p class="price">€35,00</p>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="addToCart('Polo Nera Lacoste', 35.00, 'Immagini/PoloLacosteNera.jpg')">Aggiungi al carrello</button>
+                </div>
+
+                <div class="item-card" data-category="polo" data-price="35.00" data-date="20240315">
+                    <a href="prodotto.html?nome=Polo%20Bianca%20Lacoste&prezzo=35.00&img=Immagini/LacostePoloBianca.jpg" class="product-link">
+                        <div class="img-container">
+                            <div class="badge-cond">9/10</div>
+                            <img src="Immagini/LacostePoloBianca.jpg" alt="Polo Lacoste Bianca">
+                        </div>
+                        <div class="item-info">
+                            <span class="brand">Lacoste</span>
+                            <p class="name">Polo Bianca Manica corta</p>
+                            <p class="price">€35,00</p>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="addToCart('Polo Bianca Lacoste', 35.00, 'Immagini/LacostePoloBianca.jpg')">Aggiungi al carrello</button>
+                </div>
+
+                <div class="item-card" data-category="costumi" data-price="50.00" data-date="20240402">
+                    <a href="prodotto.html?nome=Costume%20Dsquared&prezzo=50.00&img=Immagini/costume_dsq2_rosso.PNG" class="product-link">
+                        <div class="img-container">
+                            <div class="badge-cond">NEW</div>
+                            <img src="Immagini/costume_dsq2_rosso.PNG" alt="Costume Dsquared Rosso">
+                        </div>
+                        <div class="item-info">
+                            <span class="brand">Dsquared</span>
+                            <p class="name">Costume Da Bagno Rosso</p>
+                            <p class="price">€50,00</p>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="addToCart('Costume Dsquared Rosso', 50.00, 'Immagini/costume_dsq2_rosso.PNG')">Aggiungi al carrello</button>
+                </div>
+                
+                <div class="item-card" data-category="costumi" data-price="40.00" data-date="20240403">
+                    <a href="prodotto.html?nome=Costume%20Raplh%20Lauren&prezzo=40.00&img=Immagini/costume_ralphlauren_blu_BIGLOGO.PNG" class="product-link">
+                        <div class="img-container">
+                            <div class="badge-cond">NEW</div>
+                            <img src="Immagini/costume_ralphlauren_blu_BIGLOGO.PNG" alt="Costume Ralph Lauren Blu">
+                        </div>
+                        <div class="item-info">
+                            <span class="brand">Ralph Lauren</span>
+                            <p class="name">Costume Da Bagno Blu Logo Grande</p>
+                            <p class="price">€40,00</p>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="addToCart('Costume Ralph Lauren azzurro', 40.00, 'Immagini/costume_ralphlauren_azzurro.PNG')">Aggiungi al carrello</button>
+                </div>
+
+                <div class="item-card" data-category="costumi" data-price="40.00" data-date="20240325">
+                    <a href="prodotto.html?nome=Costume%20Raplh%20Lauren&prezzo=40.00&img=Immagini/costume_ralphlauren_azzurro.PNG" class="product-link">
+                        <div class="img-container">
+                            <div class="badge-cond">NEW</div>
+                            <img src="Immagini/costume_ralphlauren_azzurro.PNG" alt="Costume Ralph Lauren Azzurro">
+                        </div>
+                        <div class="item-info">
+                            <span class="brand">Ralph Lauren</span>
+                            <p class="name">Costume Da Bagno Azzurro</p>
+                            <p class="price">€40,00</p>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="addToCart('Costume Ralph Lauren Azzurro', 40.00, 'Immagini/costume_ralphlauren_azzurro.PNG')">Aggiungi al carrello</button>
+                </div>
+				
+				<div class="item-card" data-category="costumi" data-price="45.00" data-date="20240403">
+                    <a href="prodotto.html?nome=Costume%20Lacoste&prezzo=45.00&img=Immagini/costume_lacoste_verde.PNG" class="product-link">
+                        <div class="img-container">
+                            <div class="badge-cond">NEW</div>
+                            <img src="Immagini/costume_lacoste_verde.PNG" alt="Costume Lacoste Verde">
+                        </div>
+                        <div class="item-info">
+                            <span class="brand">Lacoste</span>
+                            <p class="name">Costume Da Bagno Verde</p>
+                            <p class="price">€45,00</p>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="addToCart('Costume Lacoste Verde', 45.00, 'Immagini/costume_lacoste_verde.PNG')">Aggiungi al carrello</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="year"></span> ReadyWear Resell. Tutti i diritti riservati.</p>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const grid = document.getElementById('products-grid');
+        const checkboxes = document.querySelectorAll('.filter-checkbox');
+        const sortSelect = document.getElementById('sort-select');
+
+        function addToCart(nome, prezzo, immagine) {
+            let cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            cart.push({ name: nome, price: prezzo, img: immagine });
+            localStorage.setItem('readywearCart', JSON.stringify(cart));
+            updateCartCount();
+            showNotification(nome + " aggiunto");
+        }
+
+        function showNotification(message) {
+            const notify = document.getElementById('custom-notification');
+            notify.innerText = message;
+            notify.style.display = 'block';
+            setTimeout(() => { notify.style.display = 'none'; }, 2500);
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            const countElement = document.getElementById('cart-count');
+            if (countElement) countElement.innerText = cart.length;
+        }
+
+        function applyFiltersAndSort() {
+            const activeFilters = Array.from(checkboxes).filter(i => i.checked).map(i => i.value);
+            const products = Array.from(document.querySelectorAll('.item-card'));
+            const sortBy = sortSelect.value;
+
+            // Filtro
+            products.forEach(product => {
+                const cat = product.getAttribute('data-category');
+                const isVisible = activeFilters.length === 0 || activeFilters.includes(cat);
+                product.style.display = isVisible ? 'flex' : 'none';
+            });
+
+            // Ordinamento
+            products.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+                const dateA = parseInt(a.getAttribute('data-date'));
+                const dateB = parseInt(b.getAttribute('data-date'));
+
+                if (sortBy === 'price-asc') return priceA - priceB;
+                if (sortBy === 'price-desc') return priceB - priceA;
+                if (sortBy === 'recent') return dateB - dateA;
+                return 0;
+            });
+
+            products.forEach(p => grid.appendChild(p));
+        }
+
+        checkboxes.forEach(cb => cb.addEventListener('change', applyFiltersAndSort));
+        sortSelect.addEventListener('change', applyFiltersAndSort);
+
+        updateCartCount();
+    </script>
+</body>
+</html>

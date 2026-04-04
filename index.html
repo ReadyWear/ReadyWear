@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadyWear | Premium Second Hand Resell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+            --border: #eee;
+            --accent: #007aff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--black);
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: #888; }
+
+        .hero {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--gray);
+            padding: 0 10%;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .cta-button {
+            background: var(--black);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover { transform: scale(1.05); }
+
+        .container { padding: 50px 5%; }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            border: 1px solid #efefef;
+            transition: 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        .card img { width: 100%; height: auto; display: block; }
+
+        .card-info { padding: 15px; flex-grow: 1; text-decoration: none; color: inherit;}
+
+        .brand { font-size: 0.75rem; color: #888; text-transform: uppercase; }
+
+        .model { font-size: 1.1rem; font-weight: 600; margin: 5px 0; }
+
+        .price { font-weight: 700; color: var(--black); }
+
+        .tag-condition {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            color: black;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: 1px solid #000;
+            z-index: 10;
+        }
+
+        .add-to-cart {
+            background: var(--black);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+		
+		/* 1. Nasconde l'eccedenza dell'immagine che si ingrandisce */
+.card a {
+    display: block;
+    overflow: hidden;
+}
+
+/* 2. Imposta la transizione fluida sull'immagine */
+.card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 3. Effetto Zoom e leggera variazione di luminosità al passaggio del mouse */
+.card:hover img {
+    transform: scale(1.1);
+    filter: brightness(0.9);
+}
+
+        .add-to-cart:hover { opacity: 0.8; }
+
+        #custom-notification {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--black);
+            color: var(--white);
+            padding: 20px 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            z-index: 2000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            min-width: 280px;
+        }
+
+        .fade-in { animation: fadeIn 0.4s ease forwards; }
+        .fade-out { animation: fadeOut 0.4s ease forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translate(-50%, -50%); }
+            to { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        footer {
+            margin-top: 80px;
+            padding: 40px 5%;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            nav a:not(.cart-link) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="custom-notification">Articolo aggiunto</div>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">ReadyWear</a>
+        </div>
+        <nav>
+            <a href="Collezione.html">Collezione</a>
+            <a href="Sneakers.html">Sneakers</a>
+            <a href="Vendi.html">Vendi</a>
+            <a href="Contatti.html">Contatti</a>
+			<a href="Storia.html">Storia</a>
+            <a href="Carrello.html" class="cart-link">
+                <span>🛒</span> Carrello (<span id="cart-count">0</span>)
+            </a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Authentic Resell<br>Elevated Style</h1>
+        <p>La selezione curata dei migliori pezzi second-hand, pronti per te</p>
+        <a href="Collezione.html" class="cta-button">Esplora la Collezione</a>
+    </section>
+
+    <div class="container" id="shop">
+        <h2 style="margin-bottom: 30px; text-transform: uppercase; font-weight: 800;">Più Venduti</h2>
+        <div class="product-grid">
+            
+            <div class="card">
+                <div class="tag-condition">Più venduto</div>
+                <a href="prodotto.html?nome=Costume%20Dsquared&prezzo=50.00&img=Immagini/costume_dsq2_rosso.PNG"style="text-decoration:none; color:inherit;">
+                    <img src="Immagini/costume_dsq2_rosso.PNG" alt="Costume Dsquared Rosso">
+                    <div class="card-info">
+                        <span class="brand">Dsquared</span>
+                        <p class="model">Costume Da Bagno Rosso</p>
+                        <p class="price">€50,00</p>
+                    </div>
+                </a>
+                <button class="add-to-cart" onclick="addToCart('Polo Bianca Lacoste', 35.00, 'Immagini/LacostePoloBianca.jpg')">
+                    Aggiungi al carrello
+                </button>
+            </div>
+
+			<div class="card">
+                <div class="tag-condition">Più venduto</div>
+                <a href="prodotto.html?nome=Costume%20Raplh%20Lauren&prezzo=40.00&img=Immagini/costume_ralphlauren_blu_BIGLOGO.PNG" style="text-decoration:none; color:inherit;">
+                    <img src="Immagini/costume_ralphlauren_blu_BIGLOGO.PNG" alt="Costume Ralph Lauren Blu">
+                    <div class="card-info">
+                        <span class="brand">Ralph Lauren</span>
+                        <p class="model">Costume Da Bagno Blu Logo Grande</p>
+                        <p class="price">€40,00</p>
+                    </div>
+                </a>
+                <button class="add-to-cart" onclick="addToCart('Costume Ralph Lauren Blu', 40.00, 'Immagini/costume_ralphlauren_blu_BIGLOGO.PNG')">
+                    Aggiungi al carrello
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="tag-condition">Più venduto</div>
+                <a href="prodotto.html?nome=Costume%20Raplh%20Lauren&prezzo=40.00&img=Immagini/costume_ralphlauren_azzurro.PNG" style="text-decoration:none; color:inherit;">
+                    <img src="Immagini/costume_ralphlauren_azzurro.PNG" alt="Costume Ralph Lauren azzurro">
+                    <div class="card-info">
+                        <span class="brand">Ralph Lauren</span>
+                        <p class="model">Costume Da Bagno Azzurro</p>
+                        <p class="price">€40,00</p>
+                    </div>
+                </a>
+                <button class="add-to-cart" onclick="addToCart('Costume Ralph Lauren azzurro', 40.00, 'Immagini/costume_ralphlauren_azzurro.PNG')">
+                    Aggiungi al carrello
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="year"></span> ReadyWear Resell. Tutti i diritti riservati.</p>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        function addToCart(nome, prezzo, immagine) {
+            let cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            cart.push({ name: nome, price: prezzo, img: immagine });
+            localStorage.setItem('readywearCart', JSON.stringify(cart));
+            updateCartCount();
+            showNotification(nome + " aggiunto");
+        }
+
+        function showNotification(message) {
+            const notify = document.getElementById('custom-notification');
+            notify.innerText = message;
+            notify.style.display = 'block';
+            notify.className = 'fade-in';
+            setTimeout(() => {
+                notify.className = 'fade-out';
+                setTimeout(() => { notify.style.display = 'none'; }, 400);
+            }, 1000);
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('readywearCart')) || [];
+            const countElement = document.getElementById('cart-count');
+            if (countElement) countElement.innerText = cart.length;
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>
