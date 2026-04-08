@@ -20,6 +20,7 @@
             margin: 0;
             background-color: var(--white);
             color: var(--black);
+            overflow-x: hidden; /* Evita scorrimenti laterali fastidiosi */
         }
 
         header {
@@ -32,6 +33,7 @@
             top: 0;
             background: rgba(255, 255, 255, 0.95);
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
         .logo {
@@ -41,10 +43,7 @@
             text-transform: uppercase;
         }
 
-        .logo a {
-            text-decoration: none;
-            color: inherit;
-        }
+        .logo a { text-decoration: none; color: inherit; }
 
         nav {
             display: flex;
@@ -77,6 +76,7 @@
             font-size: 3.5rem;
             margin-bottom: 10px;
             font-weight: 700;
+            line-height: 1.1;
         }
 
         .cta-button {
@@ -88,6 +88,7 @@
             text-transform: uppercase;
             margin-top: 20px;
             transition: transform 0.2s;
+            display: inline-block;
         }
 
         .cta-button:hover { transform: scale(1.05); }
@@ -106,13 +107,23 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            background: #fff;
         }
 
         .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
 
-        .card img { width: 100%; height: auto; display: block; }
+        .card a { display: block; overflow: hidden; text-decoration: none; color: inherit; }
 
-        .card-info { padding: 15px; flex-grow: 1; text-decoration: none; color: inherit;}
+        .card img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .card:hover img { transform: scale(1.08); filter: brightness(0.9); }
+
+        .card-info { padding: 15px; flex-grow: 1; }
 
         .brand { font-size: 0.75rem; color: #888; text-transform: uppercase; }
 
@@ -146,59 +157,24 @@
             width: 100%;
             transition: opacity 0.2s;
         }
-		
-		/* 1. Nasconde l'eccedenza dell'immagine che si ingrandisce */
-.card a {
-    display: block;
-    overflow: hidden;
-}
-
-/* 2. Imposta la transizione fluida sull'immagine */
-.card img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* 3. Effetto Zoom e leggera variazione di luminosità al passaggio del mouse */
-.card:hover img {
-    transform: scale(1.1);
-    filter: brightness(0.9);
-}
-
-        .add-to-cart:hover { opacity: 0.8; }
 
         #custom-notification {
             display: none;
             position: fixed;
-            top: 50%;
+            top: 20px; /* Spostato in alto per visibilità mobile */
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             background: var(--black);
             color: var(--white);
-            padding: 20px 40px;
+            padding: 15px 30px;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            font-size: 0.8rem;
             z-index: 2000;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             text-align: center;
-            min-width: 280px;
-        }
-
-        .fade-in { animation: fadeIn 0.4s ease forwards; }
-        .fade-out { animation: fadeOut 0.4s ease forwards; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translate(-50%, -40%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translate(-50%, -50%); }
-            to { opacity: 0; transform: translate(-50%, -60%); }
+            width: 80%;
+            max-width: 300px;
         }
 
         footer {
@@ -210,9 +186,49 @@
             color: #888;
         }
 
+        /* --- OTTIMIZZAZIONE MOBILE --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            nav a:not(.cart-link) { display: none; }
+            header {
+                padding: 15px 5%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .logo { margin-bottom: 15px; }
+
+            nav {
+                width: 100%;
+                overflow-x: auto; /* Permette lo scorrimento laterale dei link */
+                white-space: nowrap;
+                padding-bottom: 10px;
+                display: block;
+            }
+
+            nav a {
+                margin-left: 0;
+                margin-right: 20px;
+                display: inline-block;
+            }
+
+            .hero {
+                height: 50vh;
+                padding: 0 5%;
+            }
+
+            .hero h1 { font-size: 2.2rem; }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr); /* Due colonne su mobile */
+                gap: 15px;
+            }
+
+            .card-info { padding: 10px; }
+
+            .model { font-size: 0.9rem; }
+
+            .add-to-cart { font-size: 0.7rem; padding: 10px 5px; }
+
+            .tag-condition { font-size: 0.6rem; padding: 2px 6px; }
         }
     </style>
 </head>
@@ -229,26 +245,24 @@
             <a href="Sneakers.html">Sneakers</a>
             <a href="Vendi.html">Vendi</a>
             <a href="Contatti.html">Contatti</a>
-			<a href="Storia.html">Storia</a>
-            <a href="Carrello.html" class="cart-link">
-                <span>🛒</span> Carrello (<span id="cart-count">0</span>)
-            </a>
+            <a href="Storia.html">Storia</a>
+            <a href="Carrello.html" class="cart-link">🛒 Carrello (<span id="cart-count">0</span>)</a>
         </nav>
     </header>
 
     <section class="hero">
         <h1>Authentic Resell<br>Elevated Style</h1>
-        <p>La selezione curata dei migliori pezzi second-hand, pronti per te</p>
-        <a href="Collezione.html" class="cta-button">Esplora la Collezione</a>
+        <p>La selezione curata dei migliori pezzi second-hand</p>
+        <a href="Collezione.html" class="cta-button">Esplora</a>
     </section>
 
     <div class="container" id="shop">
-        <h2 style="margin-bottom: 30px; text-transform: uppercase; font-weight: 800;">Più Venduti</h2>
+        <h2 style="margin-bottom: 30px; text-transform: uppercase; font-weight: 800; font-size: 1.2rem;">Più Venduti</h2>
         <div class="product-grid">
             
             <div class="card">
                 <div class="tag-condition">Più venduto</div>
-                <a href="prodotto.html?nome=Costume%20Dsquared&prezzo=50.00&img=Immagini/costume_dsq2_rosso.PNG"style="text-decoration:none; color:inherit;">
+                <a href="prodotto.html?nome=Costume%20Dsquared&prezzo=50.00&img=Immagini/costume_dsq2_rosso.PNG">
                     <img src="Immagini/costume_dsq2_rosso.PNG" alt="Costume Dsquared Rosso">
                     <div class="card-info">
                         <span class="brand">Dsquared</span>
@@ -256,18 +270,18 @@
                         <p class="price">€50,00</p>
                     </div>
                 </a>
-                <button class="add-to-cart" onclick="addToCart('Polo Bianca Lacoste', 35.00, 'Immagini/LacostePoloBianca.jpg')">
+                <button class="add-to-cart" onclick="addToCart('Costume Dsquared Rosso', 50.00, 'Immagini/costume_dsq2_rosso.PNG')">
                     Aggiungi al carrello
                 </button>
             </div>
 
-			<div class="card">
+            <div class="card">
                 <div class="tag-condition">Più venduto</div>
-                <a href="prodotto.html?nome=Costume%20Raplh%20Lauren&prezzo=40.00&img=Immagini/costume_ralphlauren_blu_BIGLOGO.PNG" style="text-decoration:none; color:inherit;">
+                <a href="prodotto.html?nome=Costume%20Raplh%20Lauren&prezzo=40.00&img=Immagini/costume_ralphlauren_blu_BIGLOGO.PNG">
                     <img src="Immagini/costume_ralphlauren_blu_BIGLOGO.PNG" alt="Costume Ralph Lauren Blu">
                     <div class="card-info">
                         <span class="brand">Ralph Lauren</span>
-                        <p class="model">Costume Da Bagno Blu Logo Grande</p>
+                        <p class="model">Costume Blu Logo Grande</p>
                         <p class="price">€40,00</p>
                     </div>
                 </a>
@@ -276,22 +290,7 @@
                 </button>
             </div>
 
-            <div class="card">
-                <div class="tag-condition">Più venduto</div>
-                <a href="prodotto.html?nome=Costume%20Raplh%20Lauren&prezzo=40.00&img=Immagini/costume_ralphlauren_azzurro.PNG" style="text-decoration:none; color:inherit;">
-                    <img src="Immagini/costume_ralphlauren_azzurro.PNG" alt="Costume Ralph Lauren azzurro">
-                    <div class="card-info">
-                        <span class="brand">Ralph Lauren</span>
-                        <p class="model">Costume Da Bagno Azzurro</p>
-                        <p class="price">€40,00</p>
-                    </div>
-                </a>
-                <button class="add-to-cart" onclick="addToCart('Costume Ralph Lauren azzurro', 40.00, 'Immagini/costume_ralphlauren_azzurro.PNG')">
-                    Aggiungi al carrello
-                </button>
             </div>
-
-        </div>
     </div>
 
     <footer>
@@ -313,11 +312,11 @@
             const notify = document.getElementById('custom-notification');
             notify.innerText = message;
             notify.style.display = 'block';
-            notify.className = 'fade-in';
+            notify.style.opacity = '1';
             setTimeout(() => {
-                notify.className = 'fade-out';
+                notify.style.opacity = '0';
                 setTimeout(() => { notify.style.display = 'none'; }, 400);
-            }, 1000);
+            }, 2000);
         }
 
         function updateCartCount() {
@@ -325,6 +324,11 @@
             const countElement = document.getElementById('cart-count');
             if (countElement) countElement.innerText = cart.length;
         }
+
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>
 
         document.addEventListener('DOMContentLoaded', updateCartCount);
     </script>
